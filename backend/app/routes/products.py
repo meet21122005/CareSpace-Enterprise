@@ -26,7 +26,10 @@ def product_to_response(product: Product, duration: str) -> ProductResponse:
         slug=product.slug,
         category_id=product.category_id,
         price=get_price_by_duration(product, duration),
-        duration=duration
+        duration=duration,
+        image_url=product.image_url,
+        description=product.description,
+        specifications=product.specifications
     )
 
 router = APIRouter(prefix="/api/products", tags=["Products"])
@@ -70,6 +73,30 @@ def get_products_by_category(category_slug: str, db: Session = Depends(get_db), 
         raise HTTPException(status_code=404, detail="Category not found")
     products = db.query(Product).filter(Product.category_id == category.id).all()
     return [product_to_response(p, duration) for p in products]
+
+
+@router.get("/{slug}/related", response_model=List[ProductResponse])
+def get_related_products(
+    slug: str,
+    duration: str = Query("1month", description="Duration: 1month, 2month, or 3month"),
+    db: Session = Depends(get_db)
+):
+    """Get related products from same category"""
+    product = db.query(Product).filter(Product.slug == slug).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    related_products = (
+        db.query(Product)
+        .filter(
+            Product.category_id == product.category_id,
+            Product.slug != slug
+        )
+        .limit(4)
+        .all()
+    )
+
+    return [product_to_response(p, duration) for p in related_products]
 
 
 @router.get("/{slug}", response_model=ProductResponse)
