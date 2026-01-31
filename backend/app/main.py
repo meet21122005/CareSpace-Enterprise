@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from typing import List
 
 # Add backend directory to path so imports work when run directly
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -7,16 +8,18 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from fastapi import FastAPI
 from app.core.database import Base, engine
 
-from app.routes import categories, products
+from app.routes import categories, products, leads, auth
 
-from app.models import category, product, lead
+from app.models import category, product, lead, user
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="CareSpace Enterprise API")
 
+app.include_router(auth.router)
 app.include_router(categories.router)
 app.include_router(products.router)
+app.include_router(leads.router)
 
 @app.get("/")
 def root():
