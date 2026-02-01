@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Text
+from sqlalchemy.orm import relationship
 from app.core.database import Base
 import uuid
 
@@ -6,15 +7,22 @@ class Product(Base):
     __tablename__ = "products"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    name = Column(String, index=True)
-    slug = Column(String, unique=True, index=True)
-    category_id = Column(String, ForeignKey("categories.id"), nullable=True)
-
-    price_1month = Column(Integer, nullable=True)
-    price_2month = Column(Integer, nullable=True)
-    price_3month = Column(Integer, nullable=True)
+    name = Column(String, nullable=False, index=True)
+    slug = Column(String, unique=True, nullable=False, index=True)
+    category_id = Column(String, ForeignKey("categories.id"), nullable=False)
     
-    # New fields for UI
-    image_url = Column(String, nullable=True)  # Product photo URL
-    description = Column(Text, nullable=True)  # Detailed description
-    specifications = Column(Text, nullable=True)  # Tech specs (JSON format)
+    price_1month = Column(Integer, nullable=True, default=0)
+    price_2month = Column(Integer, nullable=True, default=0)
+    price_3month = Column(Integer, nullable=True, default=0)
+    
+    image_url = Column(String, nullable=True)
+    description = Column(Text, nullable=True)
+    specifications = Column(Text, nullable=True)
+    youtube_url = Column(String, nullable=True)
+    
+    # Relationship to category
+    category = relationship("Category", back_populates="products")
+    
+    def __repr__(self):
+        return f"<Product(id={self.id}, name={self.name}, slug={self.slug}, category_id={self.category_id})>"
+
