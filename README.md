@@ -124,16 +124,22 @@ CareSpace-Enterprise/
 
 ### Products
 - `POST /api/products` - Create product
-- `GET /api/products` - Get all products
-- `GET /api/products/{slug}` - Get product by slug
-- `GET /api/products/category/{slug}` - Get products by category
+- `GET /api/products` - Get all products (paginated)
+- `GET /api/products/{slug}` - Get product by slug with full details
+- `GET /api/products/category/{slug}` - Get products by category slug
+- `GET /api/products/{slug}/related` - Get related products from same category
+- `GET /api/products/search?q=query` - Search products by name
 
 ### Leads
-- `POST /api/leads` - Create lead
+- `POST /api/leads` - Create lead (customer inquiry)
 - `GET /api/leads` - Get all leads
 - `GET /api/leads/{id}` - Get lead by ID
 
-### Authentication
+### Health & Info
+- `GET /` - API info and endpoint documentation
+- `GET /health` - Health check endpoint
+
+### Authentication (Planned)
 - `POST /auth/google-login` - Login with Google
 - `GET /auth/me` - Get current user
 - `POST /auth/logout` - Logout
@@ -149,18 +155,138 @@ curl -X POST http://127.0.0.1:8000/api/products \
     "category_id": "cat-123",
     "price_1month": 12000,
     "price_2month": 22800,
-    "price_3month": 32400
+    "price_3month": 32400,
+    "description": "5-function automatic ICU bed",
+    "image_url": "https://example.com/bed.jpg",
+    "youtube_url": "https://youtube.com/watch?v=..."
   }'
 ```
 
-## Database
+**Product Fields:**
+- `name` (required): Equipment name
+- `slug` (required): URL-friendly identifier (lowercase, hyphens only)
+- `category_id` (required): Category UUID
+- `price_1month`, `price_2month`, `price_3month`: Monthly rental prices (₹)
+- `description`: Equipment description
+- `image_url`: Product image URL
+- `specifications`: Technical specs
+- `youtube_url`: Demo/tutorial video URL (optional)
+
+## Backend File Explanations
+
+### Core Files (`backend/app/core/`)
+
+**database.py**
+- SQLAlchemy engine and session configuration
+- SQLite database setup with WAL mode for concurrent access
+- PRAGMA configurations for stability:
+  - `journal_mode=WAL`: Write-Ahead Logging for better concurrency
+  - `synchronous=NORMAL`: Balance between safety and performance
+  - `foreign_keys=ON`: Enable foreign key constraints
+- Connection pooling with `pool_pre_ping=True` for reliability
+
+**deps.py**
+- Dependency injection functions for routes
+- Database session provider for endpoints
+
+### Models (`backend/app/models/`)
+
+**product.py** - Medical Equipment
+- UUID primary key
+- Fields: name, slug, category_id, prices (1/2/3 month), image_url, description, specifications, youtube_url
+- Relationship to Category (many-to-one)
+
+**category.py** - Equipment Categories
+- UUID primary key
+- Fields: name, slug, description
+- Relationship to Products (one-to-many with cascade delete)
+- Property `product_count`: Returns number of products in category
+
+**lead.py** - Customer Inquiries
+- UUID primary key
+- Fields: name, email, phone, message, source (WhatsApp/call/form)
+- Timestamps: created_at, updated_at
+
+**user.py** - User Accounts (for future OAuth)
+- UUID primary key
+- Fields: email, google_id, name, avatar
+
+### Schemas (`backend/app/schemas/`)
+
+**product.py** - Validation & Response Models
+- `ProductCreate`: Strict validation for POST requests
+  - Slug pattern: `^[a-z0-9\-]+$` (lowercase, hyphens, numbers only)
+  - Min/max string lengths validated
+  - Prices validated as non-negative integers
+- `ProductOut`: Response model for GET requests
+- `ProductDetail`: Extended product view
+- `ProductSearchResult`: Search-specific response with category info
+
+**category.py**, **lead.py**, **user.py**: Similar Create/Out schema separation
+
+### Routes (`backend/app/routes/`)
+
+**products.py** - Product Endpoints
+- POST /api/products: Create with try/except IntegrityError handling
+- GET /api/products: List all products
+- GET /api/products/search?q=: Search by name/description
+- GET /api/products/{slug}: Single product detail
+- GET /api/products/category/{slug}: Products by category
+- GET /api/products/{slug}/related: Related products from same category
+- All endpoints wrapped in error handling with proper HTTP status codes
+
+**categories.py** - Category Endpoints
+- POST /api/categories: Create category with duplicate checking
+- GET /api/categories: List all categories
+- GET /api/categories/{slug}: Single category with product count
+- Error handling for IntegrityError on duplicate slugs
+
+**leads.py** - Lead Endpoints
+- POST /api/leads: Create customer inquiry (201 Created)
+- GET /api/leads: List all leads
+- GET /api/leads/{id}: Single lead detail
+- Comprehensive error handling and validation
+
+**auth.py** - Authentication (Placeholder)
+- To be implemented with Google OAuth
+
+### Main Application
+
+**main.py**
+- FastAPI app initialization
+- CORS middleware configuration (allows all origins)
+- Router registration (categories, products, leads)
+- Health check endpoint (`/health`)
+- Root endpoint with API info
+
+## Error Handling
+
+All endpoints include comprehensive error handling:
+
+| Status | Meaning | Example |
+|--------|---------|---------|
+| 200 | Success (GET, POST complete) | Returns data |
+| 201 | Created (POST successful) | New resource created |
+| 400 | Bad Request | Missing required field, invalid format |
+| 404 | Not Found | Product/category doesn't exist |
+| 422 | Validation Error | Invalid data type or constraint violated |
+| 500 | Server Error | Database connection issue (rare with WAL mode) |
+
+### Try/Except Blocks in All Routes
+- Database IntegrityError handling (duplicate entries)
+- SQLAlchemy session flush/commit error catching
+- Proper HTTPException raising with status codes
+- All errors logged and returned as JSON
+
+## Database Management
 
 ### View Database
 
 ```bash
 sqlite3 backend/carespace.db
 .tables                    # List tables
-SELECT * FROM categories;  # Query data
+SELECT * FROM products;    # View products
+SELECT * FROM categories;  # View categories
 .quit                      # Exit
 ```
 
@@ -170,16 +296,15 @@ SELECT * FROM categories;  # Query data
 # Delete database file (all data lost)
 rm backend/carespace.db
 
-# Restart server to recreate
+# Restart server to recreate empty tables
+# Then run: python seed_data.py
 ```
 
-## Environment Variables
+### Backup Database
 
-Create `backend/.env`:
-
-```env
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
+```bash
+# Copy database file
+cp backend/carespace.db backend/carespace.db.backup
 ```
 
 ## Scripts
@@ -194,7 +319,52 @@ python seed_data.py
 
 ## Testing
 
-Use Swagger UI at `http://127.0.0.1:8000/docs` to test all endpoints interactively.
+### 1. Interactive Testing (Recommended)
+Use Swagger UI at `http://127.0.0.1:8000/docs`:
+- Try all endpoints interactively
+- See request/response schemas
+- Test with real data
+- View error responses
+
+### 2. cURL Examples
+
+**Get all products:**
+```bash
+curl http://127.0.0.1:8000/api/products
+```
+
+**Search products:**
+```bash
+curl "http://127.0.0.1:8000/api/products/search?q=hospital"
+```
+
+**Create a lead:**
+```bash
+curl -X POST http://127.0.0.1:8000/api/leads \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "9876543210",
+    "message": "Need oxygen concentrator",
+    "source": "WhatsApp"
+  }'
+```
+
+### 3. Health Check
+```bash
+curl http://127.0.0.1:8000/health
+# Returns: {"status": "ok"}
+```
+
+### 4. Environment Variables
+
+Create `backend/.env`:
+
+```env
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+```
 
 ## Production Deployment
 
