@@ -11,13 +11,40 @@ Modern medical equipment rental management system built with FastAPI, SQLAlchemy
 - 📞 **Lead Capture** - Track customer inquiries from multiple sources (WhatsApp, calls, forms)
 - 📱 **REST API** - Clean API endpoints with Swagger documentation
 
-## Tech Stack
+## Recent Updates (Feb 2026)
 
-- **Backend**: FastAPI 0.104.1
-- **Database**: SQLite with SQLAlchemy ORM
-- **Auth**: Google OAuth with session cookies
-- **Server**: Uvicorn
-- **Python**: 3.9+
+### ✅ Fixed Issues
+- **Server Crashes**: Resolved critical import conflict causing automatic shutdowns
+- **Validation Errors**: Fixed Pydantic schema validation with proper Create/Out separation
+- **Missing Fields**: Added `youtube_url` field to Product model and all schemas
+- **Error Handling**: Comprehensive try/except blocks in all routes with proper HTTP status codes
+- **Database Stability**: Configured SQLite with WAL mode for concurrent access
+
+### 🔧 Backend Fixes Applied
+1. Product model: Added `youtube_url: Column(String, nullable=True)`
+2. Schemas: Separated `ProductCreate` (validation) from `ProductOut` (response)
+3. Routes: Added try/except error handling to all endpoints (categories, products, leads)
+4. Database: Enabled SQLite WAL mode, foreign key constraints, pragmas for stability
+5. Removed conflicting `fastapi/types.py` file that was shadowing stdlib `types` module
+
+### 📊 Data
+- **Categories**: 10 (Air Mattress, CPAP, BiPAP, DVT, Feeding, Hospital Bed, Oxygen, Monitor, Suction, Ventilator)
+- **Products**: 41 medical equipment items with 3-tier pricing (1/2/3 month rentals)
+- **Pricing**: ₹3,000 - ₹81,000 depending on equipment and rental duration
+
+## Database
+
+The system includes **41 pre-loaded medical equipment products** across **10 categories**:
+- Air Mattress (3)
+- Auto CPAP (3)
+- BiPAP (8)
+- DVT / Lymph Pump (4)
+- Feeding Infusion Syringe (1)
+- Hospital Bed (6)
+- Oxygen Concentrator (5)
+- Patient Monitor (2)
+- Suction Machine (4)
+- Ventilator (5)
 
 ## Quick Start
 
@@ -35,16 +62,21 @@ venv\Scripts\activate  # Windows
 
 # Install dependencies
 pip install -r backend/requirements.txt
+
+# Seed database with products (one-time)
+python seed_data.py
 ```
 
 ### 2. Run Server
 
 ```bash
 cd backend
-python -m uvicorn app.main:app --reload --port 8000
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
 Server runs at: `http://127.0.0.1:8000`
+
+✅ **Status**: Server is stable with automatic error handling and validation
 
 ### 3. API Documentation
 
@@ -152,17 +184,12 @@ GOOGLE_CLIENT_SECRET=your-google-client-secret
 
 ## Scripts
 
-- `add_categories.py` - Add 10 medical equipment categories
-- `add_all_products.py` - Add products with daily/weekly/monthly pricing
-- `add_all_products_monthly.py` - Add products with 1/2/3 month pricing
-- `test_pricing.py` - Test pricing by duration
-- `find_duplicates.py` - Find duplicate products
+- `seed_data.py` - Populate database with 10 categories and 41 products (run once after setup)
 
-### Run Scripts
+### Run Setup Script
 
 ```bash
-python add_categories.py
-python add_all_products_monthly.py
+python seed_data.py
 ```
 
 ## Testing
@@ -184,19 +211,26 @@ Before deploying:
 
 ## Troubleshooting
 
+### Server won't start
+- Make sure you're in the `backend` directory
+- Activate virtual environment: `venv\Scripts\activate`
+- Verify port 8000 is free or use `--port 8001`
+
 ### Port 8000 already in use
 ```bash
-python -m uvicorn app.main:app --port 8001
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8001
 ```
 
 ### Module not found: app
 ```bash
 cd backend
-python -m uvicorn app.main:app --reload
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-### Database locked
-Delete `carespace.db` and restart server (loses all data).
+### Validation errors on requests
+- Ensure request data matches schema (use Swagger UI `/docs` to test)
+- Check required fields: `name`, `slug`, `category_id` for products
+- Prices should be integers (no decimals)
 
 ## Contributing
 
