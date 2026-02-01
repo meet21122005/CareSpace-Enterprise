@@ -13,4 +13,4 @@ class Lead(Base):
     product = Column(String)
     page_url = Column(String)
     message = Column(Text)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

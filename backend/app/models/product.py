@@ -11,9 +11,9 @@ class Product(Base):
     slug = Column(String, unique=True, nullable=False, index=True)
     category_id = Column(String, ForeignKey("categories.id"), nullable=False)
     
-    price_1month = Column(Integer, nullable=True, default=0)
-    price_2month = Column(Integer, nullable=True, default=0)
-    price_3month = Column(Integer, nullable=True, default=0)
+    price_1month = Column(Integer, nullable=False, default=0)
+    price_2month = Column(Integer, nullable=False, default=0)
+    price_3month = Column(Integer, nullable=False, default=0)
     
     image_url = Column(String, nullable=True)
     description = Column(Text, nullable=True)
