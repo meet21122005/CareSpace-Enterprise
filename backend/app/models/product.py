@@ -18,6 +18,7 @@ class Product(Base):
     image_url = Column(String, nullable=True)
     description = Column(Text, nullable=True)
     specifications = Column(Text, nullable=True)
+    key_features = Column(Text, nullable=True)
     youtube_url = Column(String, nullable=True)
     
     # SEO fields
