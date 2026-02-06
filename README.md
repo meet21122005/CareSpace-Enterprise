@@ -1,422 +1,355 @@
 # CareSpace Enterprise - Medical Equipment Rental Platform
 
-Modern medical equipment rental management system built with FastAPI, SQLAlchemy, and SQLite.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Node.js 18+](https://img.shields.io/badge/node.js-18+-green.svg)](https://nodejs.org/)
+[![React 18](https://img.shields.io/badge/react-18-blue.svg)](https://reactjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
 
-## Features
+Modern medical equipment rental management system built with FastAPI, SQLAlchemy, SQLite, React, and TypeScript.
 
-- 🏥 **Equipment Management** - Manage medical equipment inventory (hospital beds, oxygen concentrators, ventilators, etc.)
-- 📦 **Categories** - Organize equipment by categories
-- 💰 **Dynamic Pricing** - Support for 1-month, 2-month, and 3-month rental periods
-- 👥 **User Management** - Google OAuth login with session-based authentication
-- 📞 **Lead Capture** - Track customer inquiries from multiple sources (WhatsApp, calls, forms)
-- 📱 **REST API** - Clean API endpoints with Swagger documentation
+## 📋 Table of Contents
 
-## Recent Updates (Feb 2026)
+- [🚀 Quick Start](#-quick-start)
+- [🌐 Live URLs](#-live-urls)
+- [✨ Features](#-features)
+- [📊 Database Overview](#-database-overview)
+- [🏗️ Project Architecture](#️-project-architecture)
+- [📡 API Endpoints](#-api-endpoints)
+- [🔧 Technical Stack](#-technical-stack)
+- [🚀 Deployment](#-deployment)
+- [🐛 Recent Fixes & Updates](#-recent-fixes--updates)
+- [📝 API Usage Examples](#-api-usage-examples)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [📞 Support](#-support)
 
-### ✅ Fixed Issues
-- **Server Crashes**: Resolved critical import conflict causing automatic shutdowns
-- **Validation Errors**: Fixed Pydantic schema validation with proper Create/Out separation
-- **Missing Fields**: Added `youtube_url` field to Product model and all schemas
-- **Error Handling**: Comprehensive try/except blocks in all routes with proper HTTP status codes
-- **Database Stability**: Configured SQLite with WAL mode for concurrent access
+## 🚀 Quick Start
 
-### 🔧 Backend Fixes Applied
-1. Product model: Added `youtube_url: Column(String, nullable=True)`
-2. Schemas: Separated `ProductCreate` (validation) from `ProductOut` (response)
-3. Routes: Added try/except error handling to all endpoints (categories, products, leads)
-4. Database: Enabled SQLite WAL mode, foreign key constraints, pragmas for stability
-5. Removed conflicting `fastapi/types.py` file that was shadowing stdlib `types` module
+### Prerequisites
+- **Python 3.9+** with pip
+- **Node.js 18+** with npm
+- **Git** for cloning
 
-### 📊 Data
-- **Categories**: 10 (Air Mattress, CPAP, BiPAP, DVT, Feeding, Hospital Bed, Oxygen, Monitor, Suction, Ventilator)
-- **Products**: 41 medical equipment items with 3-tier pricing (1/2/3 month rentals)
-- **Pricing**: ₹3,000 - ₹81,000 depending on equipment and rental duration
-
-## Database
-
-The system includes **41 pre-loaded medical equipment products** across **10 categories**:
-- Air Mattress (3)
-- Auto CPAP (3)
-- BiPAP (8)
-- DVT / Lymph Pump (4)
-- Feeding Infusion Syringe (1)
-- Hospital Bed (6)
-- Oxygen Concentrator (5)
-- Patient Monitor (2)
-- Suction Machine (4)
-- Ventilator (5)
-
-## Quick Start
-
-### 1. Setup
-
+### One-Click Setup (Windows)
 ```bash
-# Clone repository
-git clone https://github.com/meet21122005/CareSpace-Enterprise.git
+# Clone and setup everything automatically
+git clone https://github.com/yourusername/CareSpace-Enterprise.git
 cd CareSpace-Enterprise
+
+# Run the all-in-one setup script
+run_all.bat
+```
+
+### Manual Setup
+
+#### Backend Setup
+```bash
+# Navigate to backend
+cd backend
 
 # Create virtual environment
 python -m venv venv
 venv\Scripts\activate  # Windows
-# or: source venv/bin/activate  # Mac/Linux
+# source venv/bin/activate  # Mac/Linux
 
 # Install dependencies
-pip install -r backend/requirements.txt
+pip install -r requirements.txt
 
-# Seed database with products (one-time)
+# Seed database (one-time setup)
+cd ..
 python seed_data.py
 ```
 
-### 2. Run Server
-
+#### Frontend Setup
 ```bash
-cd backend
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+# Navigate to frontend
+cd Frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-Server runs at: `http://127.0.0.1:8000`
+#### Start Both Servers
+```bash
+# Terminal 1 - Backend
+cd backend
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 
-✅ **Status**: Server is stable with automatic error handling and validation
+# Terminal 2 - Frontend
+cd Frontend
+npm run dev
+```
 
-### 3. API Documentation
+## 🌐 Live URLs
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://127.0.0.1:8000
+- **API Docs**: http://127.0.0.1:8000/docs
+- **Health Check**: http://127.0.0.1:8000/health
 
-- **Swagger UI**: `http://127.0.0.1:8000/docs`
-- **ReDoc**: `http://127.0.0.1:8000/redoc`
+## ✨ Features
 
-## Project Structure
+### 🏥 Core Functionality
+- **Equipment Management** - Complete inventory of medical equipment
+- **Dynamic Pricing** - 1-month, 2-month, and 3-month rental tiers
+- **Category Organization** - 10 equipment categories
+- **Search & Filter** - Advanced product search functionality
+- **Lead Capture** - Customer inquiry management system
+
+### 🎨 Frontend Features
+- **Responsive Design** - Mobile-first approach with tablet/desktop optimization
+- **Modern UI** - Glassmorphism effects with Tailwind CSS
+- **Interactive Search** - Real-time search with dropdown results
+- **Smooth Animations** - Framer Motion powered transitions
+- **Accessibility** - ARIA labels and keyboard navigation
+
+### 🔧 Backend Features
+- **RESTful API** - Clean FastAPI endpoints with automatic documentation
+- **Database Integration** - SQLAlchemy ORM with SQLite
+- **Error Handling** - Comprehensive try/catch with proper HTTP status codes
+- **CORS Enabled** - Cross-origin requests for frontend integration
+- **Data Validation** - Pydantic schemas for type safety
+
+## 📊 Database Overview
+
+### Pre-loaded Data
+- **10 Categories**: Air Mattress, Auto CPAP, BiPAP, DVT/Lymph Pump, Feeding, Hospital Bed, Oxygen, Monitor, Suction, Ventilator
+- **41 Products**: Complete medical equipment inventory
+- **Pricing Range**: ₹3,000 - ₹81,000 (varies by equipment and duration)
+
+### Sample Categories & Products
+```
+🏥 Hospital Beds (6 products)
+   - ICU Beds, Semi-Fowler Beds, Fowler Beds
+   - Prices: ₹12,000 - ₹45,000/month
+
+🫁 Respiratory Equipment (16 products)
+   - CPAP, BiPAP, Oxygen Concentrators, Ventilators
+   - Prices: ₹8,000 - ₹81,000/month
+
+🛏️ Support Surfaces (3 products)
+   - Air Mattresses for pressure relief
+   - Prices: ₹3,000 - ₹15,000/month
+```
+
+## 🏗️ Project Architecture
 
 ```
 CareSpace-Enterprise/
-├── backend/
+├── backend/                      # FastAPI Backend
 │   ├── app/
-│   │   ├── core/
-│   │   │   ├── database.py       # SQLAlchemy setup
-│   │   │   └── deps.py           # Dependencies
-│   │   ├── models/               # Database models
-│   │   │   ├── category.py
-│   │   │   ├── product.py
-│   │   │   ├── lead.py
-│   │   │   └── user.py
-│   │   ├── schemas/              # Pydantic schemas
-│   │   │   ├── category.py
-│   │   │   ├── product.py
-│   │   │   ├── lead.py
-│   │   │   └── user.py
-│   │   ├── routes/               # API endpoints
-│   │   │   ├── categories.py
-│   │   │   ├── products.py
-│   │   │   ├── leads.py
-│   │   │   └── auth.py
-│   │   └── main.py               # FastAPI app
-│   ├── requirements.txt
-│   └── .env                      # Environment variables
-├── API_EXAMPLES.md               # API request examples
-├── QUICK_START.md                # Setup guide
-└── README.md                     # This file
+│   │   ├── core/                # Database & dependencies
+│   │   │   ├── database.py      # SQLAlchemy setup
+│   │   │   └── deps.py          # FastAPI dependencies
+│   │   ├── models/              # Database models
+│   │   │   ├── category.py      # Equipment categories
+│   │   │   ├── product.py       # Medical equipment
+│   │   │   ├── lead.py          # Customer inquiries
+│   │   │   └── user.py          # User management
+│   │   ├── routes/              # API endpoints
+│   │   │   ├── categories.py    # Category CRUD
+│   │   │   ├── products.py      # Product CRUD & search
+│   │   │   ├── leads.py         # Lead management
+│   │   │   └── auth.py          # Authentication (planned)
+│   │   └── schemas/             # Pydantic validation
+│   │       ├── category.py
+│   │       ├── product.py
+│   │       ├── lead.py
+│   │       └── user.py
+│   ├── requirements.txt         # Python dependencies
+│   └── .env                     # Environment variables
+│
+├── Frontend/                     # React Frontend
+│   ├── src/
+│   │   ├── app/                 # Main application
+│   │   │   ├── components/      # Reusable components
+│   │   │   │   ├── Navbar.tsx   # Advanced responsive navbar
+│   │   │   │   ├── Button.tsx
+│   │   │   │   └── ui/          # UI component library
+│   │   │   └── pages/           # Page components
+│   │   ├── services/            # API integration
+│   │   │   └── api.ts           # Axios API client
+│   │   ├── data/                # Static data
+│   │   ├── hooks/               # Custom React hooks
+│   │   ├── types/               # TypeScript definitions
+│   │   └── utils/               # Utility functions
+│   ├── public/                  # Static assets
+│   │   ├── images/              # Product images
+│   │   └── logo.png             # Company logo
+│   ├── package.json             # Node dependencies
+│   ├── vite.config.ts           # Vite configuration
+│   └── tsconfig.json            # TypeScript config
+│
+├── seed_data.py                 # Database seeding script
+├── update_images.py             # Image management utility
+├── carespace.db                 # SQLite database
+├── run_all.bat                  # One-click startup script
+├── run_backend.bat              # Backend startup script
+├── run_frontend.bat             # Frontend startup script
+└── README.md                    # This documentation
 ```
 
-## API Endpoints
+## 📡 API Endpoints
 
-### Categories
-- `POST /api/categories` - Create category
-- `GET /api/categories` - Get all categories
-- `GET /api/categories/{slug}` - Get category by slug
+### Categories API
+```http
+GET    /api/categories           # List all categories
+GET    /api/categories/{slug}    # Get category by slug
+POST   /api/categories           # Create new category
+```
 
-### Products
-- `POST /api/products` - Create product
-- `GET /api/products` - Get all products (paginated)
-- `GET /api/products/{slug}` - Get product by slug with full details
-- `GET /api/products/category/{slug}` - Get products by category slug
-- `GET /api/products/{slug}/related` - Get related products from same category
-- `GET /api/products/search?q=query` - Search products by name
+### Products API
+```http
+GET    /api/products                    # List all products (paginated)
+GET    /api/products/{slug}             # Get product details
+GET    /api/products/category/{slug}    # Products by category
+GET    /api/products/{slug}/related     # Related products
+GET    /api/products/search?q=query     # Search products
+POST   /api/products                    # Create new product
+```
 
-### Leads
-- `POST /api/leads` - Create lead (customer inquiry)
-- `GET /api/leads` - Get all leads
-- `GET /api/leads/{id}` - Get lead by ID
+### Leads API
+```http
+GET    /api/leads               # List all leads
+GET    /api/leads/{id}          # Get lead by ID
+POST   /api/leads               # Create new lead
+```
 
-### Health & Info
-- `GET /` - API info and endpoint documentation
-- `GET /health` - Health check endpoint
+### System API
+```http
+GET    /                        # API information
+GET    /health                  # Health check
+GET    /docs                    # Swagger UI documentation
+GET    /redoc                   # Alternative API docs
+```
 
-### Authentication (Planned)
-- `POST /auth/google-login` - Login with Google
-- `GET /auth/me` - Get current user
-- `POST /auth/logout` - Logout
+## 🔧 Technical Stack
 
-## Example: Create Product
+### Backend
+- **Framework**: FastAPI (modern Python web framework)
+- **Database**: SQLite with SQLAlchemy ORM
+- **Validation**: Pydantic schemas
+- **Documentation**: Automatic Swagger/ReDoc generation
+- **CORS**: Enabled for frontend integration
 
+### Frontend
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite (fast development and building)
+- **Styling**: Tailwind CSS v4 with custom utilities
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **State Management**: React hooks
+- **Routing**: React Router v6
+
+### Development Tools
+- **Version Control**: Git
+- **IDE**: VS Code with recommended extensions
+- **Testing**: Manual testing with API docs
+- **Deployment**: Ready for production builds
+
+## 🚀 Deployment
+
+### Backend Deployment
+```bash
+# Production server
+cd backend
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+```
+
+### Frontend Deployment
+```bash
+# Build for production
+cd Frontend
+npm run build
+
+# Serve static files
+npm run preview  # or deploy dist/ folder
+```
+
+## 🐛 Recent Fixes & Updates
+
+### ✅ Critical Issues Resolved
+- **Server Stability**: Fixed import conflicts causing crashes
+- **Data Validation**: Separated Pydantic Create/Out schemas
+- **Database Fields**: Added missing `youtube_url` field
+- **Error Handling**: Comprehensive try/catch in all routes
+- **Concurrent Access**: SQLite WAL mode for stability
+
+### 🔧 Backend Improvements
+1. **Database Configuration**
+   - WAL mode enabled for concurrent access
+   - Foreign key constraints activated
+   - Connection pooling optimized
+
+2. **API Reliability**
+   - All endpoints wrapped with error handling
+   - Proper HTTP status codes
+   - Input validation strengthened
+
+3. **Schema Separation**
+   - `ProductCreate` for input validation
+   - `ProductOut` for response formatting
+   - Clear separation of concerns
+
+## 📝 API Usage Examples
+
+### Create a Product
 ```bash
 curl -X POST http://127.0.0.1:8000/api/products \
   -H "Content-Type: application/json" \
   -d '{
     "name": "ICU Hospital Bed",
     "slug": "icu-bed",
-    "category_id": "cat-123",
+    "category_id": "bed-category-uuid",
     "price_1month": 12000,
     "price_2month": 22800,
     "price_3month": 32400,
     "description": "5-function automatic ICU bed",
     "image_url": "https://example.com/bed.jpg",
-    "youtube_url": "https://youtube.com/watch?v=..."
+    "youtube_url": "https://youtube.com/watch?v=demo"
   }'
 ```
 
-**Product Fields:**
-- `name` (required): Equipment name
-- `slug` (required): URL-friendly identifier (lowercase, hyphens only)
-- `category_id` (required): Category UUID
-- `price_1month`, `price_2month`, `price_3month`: Monthly rental prices (₹)
-- `description`: Equipment description
-- `image_url`: Product image URL
-- `specifications`: Technical specs
-- `youtube_url`: Demo/tutorial video URL (optional)
-
-## Backend File Explanations
-
-### Core Files (`backend/app/core/`)
-
-**database.py**
-- SQLAlchemy engine and session configuration
-- SQLite database setup with WAL mode for concurrent access
-- PRAGMA configurations for stability:
-  - `journal_mode=WAL`: Write-Ahead Logging for better concurrency
-  - `synchronous=NORMAL`: Balance between safety and performance
-  - `foreign_keys=ON`: Enable foreign key constraints
-- Connection pooling with `pool_pre_ping=True` for reliability
-
-**deps.py**
-- Dependency injection functions for routes
-- Database session provider for endpoints
-
-### Models (`backend/app/models/`)
-
-**product.py** - Medical Equipment
-- UUID primary key
-- Fields: name, slug, category_id, prices (1/2/3 month), image_url, description, specifications, youtube_url
-- Relationship to Category (many-to-one)
-
-**category.py** - Equipment Categories
-- UUID primary key
-- Fields: name, slug, description
-- Relationship to Products (one-to-many with cascade delete)
-- Property `product_count`: Returns number of products in category
-
-**lead.py** - Customer Inquiries
-- UUID primary key
-- Fields: name, email, phone, message, source (WhatsApp/call/form)
-- Timestamps: created_at, updated_at
-
-**user.py** - User Accounts (for future OAuth)
-- UUID primary key
-- Fields: email, google_id, name, avatar
-
-### Schemas (`backend/app/schemas/`)
-
-**product.py** - Validation & Response Models
-- `ProductCreate`: Strict validation for POST requests
-  - Slug pattern: `^[a-z0-9\-]+$` (lowercase, hyphens, numbers only)
-  - Min/max string lengths validated
-  - Prices validated as non-negative integers
-- `ProductOut`: Response model for GET requests
-- `ProductDetail`: Extended product view
-- `ProductSearchResult`: Search-specific response with category info
-
-**category.py**, **lead.py**, **user.py**: Similar Create/Out schema separation
-
-### Routes (`backend/app/routes/`)
-
-**products.py** - Product Endpoints
-- POST /api/products: Create with try/except IntegrityError handling
-- GET /api/products: List all products
-- GET /api/products/search?q=: Search by name/description
-- GET /api/products/{slug}: Single product detail
-- GET /api/products/category/{slug}: Products by category
-- GET /api/products/{slug}/related: Related products from same category
-- All endpoints wrapped in error handling with proper HTTP status codes
-
-**categories.py** - Category Endpoints
-- POST /api/categories: Create category with duplicate checking
-- GET /api/categories: List all categories
-- GET /api/categories/{slug}: Single category with product count
-- Error handling for IntegrityError on duplicate slugs
-
-**leads.py** - Lead Endpoints
-- POST /api/leads: Create customer inquiry (201 Created)
-- GET /api/leads: List all leads
-- GET /api/leads/{id}: Single lead detail
-- Comprehensive error handling and validation
-
-**auth.py** - Authentication (Placeholder)
-- To be implemented with Google OAuth
-
-### Main Application
-
-**main.py**
-- FastAPI app initialization
-- CORS middleware configuration (allows all origins)
-- Router registration (categories, products, leads)
-- Health check endpoint (`/health`)
-- Root endpoint with API info
-
-## Error Handling
-
-All endpoints include comprehensive error handling:
-
-| Status | Meaning | Example |
-|--------|---------|---------|
-| 200 | Success (GET, POST complete) | Returns data |
-| 201 | Created (POST successful) | New resource created |
-| 400 | Bad Request | Missing required field, invalid format |
-| 404 | Not Found | Product/category doesn't exist |
-| 422 | Validation Error | Invalid data type or constraint violated |
-| 500 | Server Error | Database connection issue (rare with WAL mode) |
-
-### Try/Except Blocks in All Routes
-- Database IntegrityError handling (duplicate entries)
-- SQLAlchemy session flush/commit error catching
-- Proper HTTPException raising with status codes
-- All errors logged and returned as JSON
-
-## Database Management
-
-### View Database
-
+### Search Products
 ```bash
-sqlite3 backend/carespace.db
-.tables                    # List tables
-SELECT * FROM products;    # View products
-SELECT * FROM categories;  # View categories
-.quit                      # Exit
+curl "http://127.0.0.1:8000/api/products/search?q=cpap"
 ```
 
-### Reset Database
-
-```bash
-# Delete database file (all data lost)
-rm backend/carespace.db
-
-# Restart server to recreate empty tables
-# Then run: python seed_data.py
-```
-
-### Backup Database
-
-```bash
-# Copy database file
-cp backend/carespace.db backend/carespace.db.backup
-```
-
-## Scripts
-
-- `seed_data.py` - Populate database with 10 categories and 41 products (run once after setup)
-
-### Run Setup Script
-
-```bash
-python seed_data.py
-```
-
-## Testing
-
-### 1. Interactive Testing (Recommended)
-Use Swagger UI at `http://127.0.0.1:8000/docs`:
-- Try all endpoints interactively
-- See request/response schemas
-- Test with real data
-- View error responses
-
-### 2. cURL Examples
-
-**Get all products:**
-```bash
-curl http://127.0.0.1:8000/api/products
-```
-
-**Search products:**
-```bash
-curl "http://127.0.0.1:8000/api/products/search?q=hospital"
-```
-
-**Create a lead:**
+### Create a Lead
 ```bash
 curl -X POST http://127.0.0.1:8000/api/leads \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Doe",
+    "phone": "+91-9876543210",
     "email": "john@example.com",
-    "phone": "9876543210",
-    "message": "Need oxygen concentrator",
-    "source": "WhatsApp"
+    "product_id": "product-uuid",
+    "message": "Interested in renting CPAP machine"
   }'
 ```
 
-### 3. Health Check
-```bash
-curl http://127.0.0.1:8000/health
-# Returns: {"status": "ok"}
-```
+## 🤝 Contributing
 
-### 4. Environment Variables
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Create `backend/.env`:
+## 📄 License
 
-```env
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-```
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Production Deployment
+## 📞 Support
 
-Before deploying:
-
-- [ ] Set environment variables
-- [ ] Use HTTPS only
-- [ ] Enable authentication
-- [ ] Set up logging
-- [ ] Configure database backup
-- [ ] Use production database (PostgreSQL recommended)
-- [ ] Set up monitoring/alerts
-- [ ] Implement rate limiting
-
-## Troubleshooting
-
-### Server won't start
-- Make sure you're in the `backend` directory
-- Activate virtual environment: `venv\Scripts\activate`
-- Verify port 8000 is free or use `--port 8001`
-
-### Port 8000 already in use
-```bash
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8001
-```
-
-### Module not found: app
-```bash
-cd backend
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
-```
-
-### Validation errors on requests
-- Ensure request data matches schema (use Swagger UI `/docs` to test)
-- Check required fields: `name`, `slug`, `category_id` for products
-- Prices should be integers (no decimals)
-
-## Contributing
-
-1. Create feature branch: `git checkout -b feature/name`
-2. Commit changes: `git commit -m "Add feature"`
-3. Push: `git push origin feature/name`
-4. Create Pull Request
-
-## License
-
-MIT License - See LICENSE file for details
-
-## Support
-
-For issues and questions, create an issue on GitHub or contact the team.
+For support or questions:
+- **GitHub Issues**: Report bugs or request features
+- **API Documentation**: http://127.0.0.1:8000/docs
+- **Project Structure**: See component files in `Frontend/src/app/components/` for detailed implementation
 
 ---
 
-**Built with ❤️ for CareSpace Enterprise**
+**CareSpace Enterprise** - Your trusted partner in medical equipment rental management. 🏥✨
