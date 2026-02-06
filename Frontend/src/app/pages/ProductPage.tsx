@@ -181,13 +181,6 @@ export const ProductPage = () => {
             <div className="glass-card rounded-2xl overflow-hidden aspect-square">
               <img src={productImages[selectedImage]} alt={product.name} className="w-full h-full object-contain bg-white p-4" onError={handleImageError} loading="lazy" />
             </div>
-            <div className="grid grid-cols-3 gap-4">
-              {productImages.map((img, index) => (
-                <button key={index} onClick={() => setSelectedImage(index)} className={`glass-card rounded-xl overflow-hidden aspect-square transition-all ${selectedImage === index ? 'ring-2 ring-[#0891b2] shadow-lg' : 'opacity-70 hover:opacity-100'}`}>
-                  <img src={img} alt={`${product.name} - View ${index + 1}`} className="w-full h-full object-contain bg-white p-2" onError={handleImageError} loading="lazy" />
-                </button>
-              ))}
-            </div>
 
             {/* YouTube Video */}
             {youtubeId && (
@@ -201,6 +194,14 @@ export const ProductPage = () => {
                 />
               </div>
             )}
+
+            <div className="grid grid-cols-3 gap-4">
+              {productImages.map((img, index) => (
+                <button key={index} onClick={() => setSelectedImage(index)} className={`glass-card rounded-xl overflow-hidden aspect-square transition-all ${selectedImage === index ? 'ring-2 ring-[#0891b2] shadow-lg' : 'opacity-70 hover:opacity-100'}`}>
+                  <img src={img} alt={`${product.name} - View ${index + 1}`} className="w-full h-full object-contain bg-white p-2" onError={handleImageError} loading="lazy" />
+                </button>
+              ))}
+            </div>
 
             {/* Trust Badges - Mobile */}
             <div className="grid grid-cols-2 gap-4 lg:hidden">
@@ -291,27 +292,28 @@ export const ProductPage = () => {
                 <p className="text-xs text-[#64748b]">Support Available</p>
               </div>
             </div>
+
+            {/* Key Features */}
+            {product.key_features && (
+              <div className="glass-card rounded-2xl p-6">
+                <h2 className="text-xl font-bold text-[#1a2332] mb-4">Key Features</h2>
+                <ul className="space-y-3">
+                  {product.key_features.split('\n').filter(feature => feature.trim()).map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-[#e0f2fe] rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-[#0891b2]" />
+                      </div>
+                      <span className="text-[#64748b]">{feature.trim()}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </motion.div>
         </div>
 
         {/* Features & Specifications */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
-          {features.length > 0 && (
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card rounded-2xl p-6">
-              <h2 className="text-xl font-bold text-[#1a2332] mb-4">Key Features</h2>
-              <ul className="space-y-3">
-                {features.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-[#e0f2fe] rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-4 h-4 text-[#0891b2]" />
-                    </div>
-                    <span className="text-[#64748b]">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          )}
-
           {Object.keys(specifications).length > 0 && (
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card rounded-2xl p-6">
               <h2 className="text-xl font-bold text-[#1a2332] mb-4">Specifications</h2>
