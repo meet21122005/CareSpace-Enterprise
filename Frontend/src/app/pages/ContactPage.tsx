@@ -56,8 +56,8 @@ export const ContactPage = () => {
               </div>
               <h3 className="text-lg font-semibold text-[#1a2332] mb-2">Phone</h3>
               <p className="text-[#64748b] mb-2">Call us anytime</p>
-              <a href="tel:+911234567890" className="text-[#0891b2] font-medium hover:underline">
-                +91 1234567890
+              <a href="tel:+918922069800" className="text-[#0891b2] font-medium hover:underline">
+                +91 8922069800
               </a>
             </motion.div>
 
@@ -73,8 +73,8 @@ export const ContactPage = () => {
               </div>
               <h3 className="text-lg font-semibold text-[#1a2332] mb-2">Email</h3>
               <p className="text-[#64748b] mb-2">Send us a message</p>
-              <a href="mailto:info@medrent.com" className="text-[#0891b2] font-medium hover:underline">
-                info@medrent.com
+              <a href="mailto:Info.carespaceindia@gmail.com" className="text-[#0891b2] font-medium hover:underline">
+                Info.carespaceindia@gmail.com
               </a>
             </motion.div>
 
@@ -162,7 +162,7 @@ export const ContactPage = () => {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="w-full px-4 py-3 bg-white/70 border border-[#e0f2fe] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891b2] focus:border-transparent transition-all"
-                    placeholder="+91 1234567890"
+                    placeholder="+91 8922069800"
                     required
                   />
                 </div>

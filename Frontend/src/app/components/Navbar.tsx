@@ -240,11 +240,11 @@ export const Navbar = () => {
                   alt="CareSpace Logo"
                   className="h-12 w-auto md:h-16 lg:h-20 object-contain drop-shadow-sm"
                 />
-                <div className="hidden sm:flex flex-col">
-                  <div className="text-lg md:text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 bg-clip-text text-transparent leading-tight">
+                <div className="flex flex-col sm:flex-col">
+                  <div className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 bg-clip-text text-transparent leading-tight">
                     CareSpace India
                   </div>
-                  <div className="text-xs md:text-sm lg:text-base font-medium text-blue-600 tracking-wide">
+                  <div className="text-xs sm:text-xs md:text-sm lg:text-base font-medium text-blue-600 tracking-wide">
                     Healthcare
                   </div>
                 </div>
@@ -276,7 +276,7 @@ export const Navbar = () => {
               <div className="flex-1 max-w-sm md:max-w-md lg:max-w-lg relative" ref={searchRef}>
                 <form onSubmit={handleSearchSubmit}>
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600 pointer-events-none" />
                     <input
                       type="text"
                       placeholder="Search equipment..."

@@ -14,7 +14,8 @@ const productImageMap: Record<string, string> = {
   'tubular-air-bed': '8 tubular air bed mattress.jpg',
   'bubble-air-bed': '9 bubble air bed mattress.jpg',
   'philips-everflo-5lpm': '10 philips everflo 5 lpm oxygen concentrator (1).jpg',
-  'jay-10-oxygen-concentrator': '11 jay – 10 (10-b), 10 lpm oxygen concentrator.jpg',
+  'jay-10-oxygen-concentrator': 'jay-10-10b-10-lpm-oxygen-concentrator.jpg',
+  'jay-10-10-b-10-lpm-oxygen-concentrator-rent': 'jay-10-10b-10-lpm-oxygen-concentrator.jpg',
   'oxy-med-portable': '12 oxy-med portable oxygen concentrator.jpg',
   'philips-simplygo-mini': '13 portable oxygen concentrator philips simply go mini.jpg',
   'philips-simplygo': '14 portable oxygen concentrator philips simply go.jpg',
@@ -44,7 +45,7 @@ const productImageMap: Record<string, string> = {
   'syringe-pump': '39 syringe pump.jpg',
   'suction-machine-single': '40 suction machine (single jar).jpg',
   'suction-machine-double': '41 suction machine (double jar).jpg',
-  'suction-machine-battery': '42 suction machine (single jar) with battery backup.jpg',
+  'suction-machine-battery': 'suction machine (single jar) with battery backup.jpg',
   'manual-suction-machine': '43 manual suction machine.jpg',
 };
 

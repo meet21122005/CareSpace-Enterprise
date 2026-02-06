@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { ChevronRight, Home, Check, MessageCircle, Phone, Mail, Star, Play } from 'lucide-react';
 import { useProduct, useRelatedProducts, useCategory, useCategories } from '@/hooks';
 import { ProductCard } from '../components/ProductCard';
@@ -136,6 +137,21 @@ export const ProductPage = () => {
 
   return (
     <div className="min-h-screen pt-12 md:pt-14 lg:pt-16 xl:pt-20">
+      <Helmet>
+        <title>{product.seo_meta_title || `${product.name} - Rent Medical Equipment | Carespace India Mumbai`}</title>
+        <meta name="description" content={product.seo_meta_description || `${product.description?.substring(0, 155)}... Rent ${product.name} in Mumbai with doorstep delivery.`} />
+        <meta name="keywords" content={`${product.name}, rent ${product.name}, medical equipment rental, ${category?.name || 'medical equipment'}, mumbai`} />
+        <link rel="canonical" href={`https://carespace.in/product/${product.slug}`} />
+        <meta property="og:title" content={product.seo_meta_title || `${product.name} - Rent Medical Equipment | Carespace India Mumbai`} />
+        <meta property="og:description" content={product.seo_meta_description || `${product.description?.substring(0, 155)}...`} />
+        <meta property="og:image" content={product.image_url ? `https://carespace.in${product.image_url}` : 'https://carespace.in/images/logo.png'} />
+        <meta property="og:url" content={`https://carespace.in/product/${product.slug}`} />
+        <meta property="og:type" content="product" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={product.seo_meta_title || `${product.name} - Rent Medical Equipment | Carespace India Mumbai`} />
+        <meta name="twitter:description" content={product.seo_meta_description || `${product.description?.substring(0, 155)}...`} />
+        <meta name="twitter:image" content={product.image_url ? `https://carespace.in${product.image_url}` : 'https://carespace.in/images/logo.png'} />
+      </Helmet>
       {/* Breadcrumb */}
       <div className="bg-[#f8fafb] border-b border-[#e0f2fe] py-3 sm:py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

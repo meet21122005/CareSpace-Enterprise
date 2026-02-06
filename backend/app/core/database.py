@@ -2,8 +2,9 @@ from sqlalchemy import create_engine, event
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import sqlite3
+import os
 
-DATABASE_URL = "sqlite:///./carespace.db"
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./carespace.db")
 
 # Configure SQLite for better reload handling and concurrency
 engine = create_engine(

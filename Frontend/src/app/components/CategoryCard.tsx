@@ -4,13 +4,9 @@ import {
   Bed, 
   Wind, 
   Activity, 
-  HeartPulse, 
-  BedDouble, 
-  CircleDot, 
+  Heart, 
   Monitor, 
   Syringe, 
-  Droplet, 
-  Waves,
   LucideIcon
 } from 'lucide-react';
 
@@ -18,13 +14,10 @@ const iconMap: Record<string, LucideIcon> = {
   bed: Bed,
   wind: Wind,
   activity: Activity,
-  'heart-pulse': HeartPulse,
-  'bed-double': BedDouble,
-  'circle-dot': CircleDot,
+  heart: Heart,
   monitor: Monitor,
   syringe: Syringe,
-  droplet: Droplet,
-  waves: Waves
+  lungs: Wind, // Use Wind as fallback for lungs
 };
 
 interface CategoryCardProps {

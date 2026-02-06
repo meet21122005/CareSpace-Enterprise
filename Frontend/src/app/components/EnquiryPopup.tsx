@@ -121,7 +121,7 @@ export const EnquiryPopup = () => {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="w-full px-4 py-2.5 bg-white/70 border border-[#e0f2fe] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0891b2] focus:border-transparent transition-all"
-                    placeholder="+91 1234567890"
+                    placeholder="+91 8922069800"
                     required
                   />
                 </div>

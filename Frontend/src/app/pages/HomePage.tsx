@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { ArrowRight, CheckCircle, Shield, Clock, Headphones, ChevronLeft, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { useCategories, useProducts } from '@/hooks';
 import { CategoryCard } from '../components/CategoryCard';
@@ -58,22 +59,100 @@ export const HomePage = () => {
 
   const getCategoryIcon = (slug: string): string => {
     const iconMap: Record<string, string> = {
-      'air-mattress': 'bed',
-      'cpap': 'wind',
+      'air-mattress-rent': 'wind', // Air mattress - air flow
+      'auto-cpap-rent': 'activity', // Auto CPAP - automatic monitoring
+      'bipap-rent': 'activity', // BiPAP - respiratory monitoring
+      'dvt-lymph-pump-rent': 'heart', // DVT pump - circulation
+      'feeding-infusion-syringe-rent': 'syringe', // Feeding syringe
+      'hospital-bed-rent': 'bed', // Hospital bed
+      'oxygen-concentrator-rent': 'wind', // Oxygen concentrator - air flow
+      'patient-monitor-rent': 'monitor', // Patient monitor
+      'suction-machine-rent': 'wind', // Suction machine - air flow
+      'ventilator-rent': 'activity', // Ventilator - respiratory activity
+      // Legacy mappings
+      'air-mattress': 'wind',
+      'cpap': 'activity',
       'bipap': 'activity',
-      'dvt-pump': 'heart-pulse',
-      'hospital-bed': 'bed-double',
-      'oxygen-concentrator': 'circle-dot',
+      'dvt-pump': 'heart',
+      'dvt-lymph-pump': 'heart',
+      'hospital-bed': 'bed',
+      'oxygen-concentrator': 'wind',
       'patient-monitor': 'monitor',
-      'suction-machine': 'syringe',
-      'syringe-pump': 'droplet',
-      'ventilator': 'waves',
+      'suction-machine': 'wind',
+      'ventilator': 'activity',
+      'syringe-pump': 'syringe',
+      'feeding-infusion-syringe': 'syringe',
     };
     return iconMap[slug] || 'bed';
   };
 
   return (
-    <div className="min-h-screen">
+    <>
+      <Helmet>
+        <title>Carespace India - Medical Equipment Rental Services | Mumbai</title>
+        <meta name="description" content="Rent medical equipment in Mumbai. Wheelchairs, hospital beds, oxygen concentrators, and more. Quality healthcare equipment rental services with doorstep delivery." />
+        <meta name="keywords" content="medical equipment rental, wheelchair rental mumbai, hospital bed rental, oxygen concentrator rent, medical supplies mumbai, healthcare equipment" />
+        <link rel="canonical" href="https://carespace.in/" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Carespace India",
+            "url": "https://carespace.in",
+            "logo": "https://carespace.in/images/logo.png",
+            "description": "Medical equipment rental services in Mumbai. Rent wheelchairs, hospital beds, oxygen concentrators, and other healthcare equipment with doorstep delivery.",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Mumbai",
+              "addressRegion": "Maharashtra",
+              "addressCountry": "IN"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-8922069800",
+              "contactType": "customer service",
+              "availableLanguage": "English"
+            },
+            "sameAs": [
+              "https://www.facebook.com/carespace",
+              "https://www.instagram.com/carespace",
+              "https://www.linkedin.com/company/carespace"
+            ],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Medical Equipment Rental",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Wheelchair Rental",
+                    "description": "Rent wheelchairs for short or long term use in Mumbai"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Hospital Bed Rental",
+                    "description": "Rent hospital beds with various features and accessories"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Oxygen Concentrator Rental",
+                    "description": "Rent oxygen concentrators for medical oxygen therapy"
+                  }
+                }
+              ]
+            }
+          })}
+        </script>
+      </Helmet>
+
+      <div className="min-h-screen">
       {/* Hero Section with Slider */}
       <section 
         className="relative h-[300px] sm:h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden"
@@ -96,7 +175,7 @@ export const HomePage = () => {
             <div className="absolute inset-0 bg-white">
               <img
                 src={slide.image}
-                alt={`Slide ${index + 1}`}
+                alt={`Carespace India - Medical Equipment Rental Services in Mumbai - Hero Image ${index + 1}`}
                 className="w-full h-full object-contain"
                 loading={index === 0 ? 'eager' : 'lazy'}
               />
@@ -189,7 +268,7 @@ export const HomePage = () => {
       <section className="bg-gradient-to-br from-[#e0f2fe] to-[#f0f9ff] py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1a2332] mb-4">Why Choose CareSpace?</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#1a2332] mb-4">Why Choose Carespace India?</h2>
             <p className="text-lg text-[#64748b]">Trusted by thousands of healthcare professionals across India</p>
           </motion.div>
 
@@ -212,5 +291,6 @@ export const HomePage = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };

@@ -13,7 +13,7 @@ export const AboutPage = () => {
             className="text-center text-white"
           >
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-              About MedRent
+              About Carespace India
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto">
               Making quality healthcare accessible through premium medical equipment rental services
@@ -122,7 +122,7 @@ export const AboutPage = () => {
           <h2 className="text-3xl font-bold text-[#1a2332] mb-6 text-center">Our Story</h2>
           <div className="prose prose-lg max-w-none text-[#64748b] space-y-4">
             <p>
-              MedRent was founded with a simple yet powerful vision: to make healthcare more
+              Carespace India was founded with a simple yet powerful vision: to make healthcare more
               accessible and affordable for everyone. Our journey began when we witnessed firsthand
               the challenges faced by patients and families trying to access quality medical equipment.
             </p>

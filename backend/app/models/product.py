@@ -20,6 +20,10 @@ class Product(Base):
     specifications = Column(Text, nullable=True)
     youtube_url = Column(String, nullable=True)
     
+    # SEO fields
+    seo_meta_title = Column(String, nullable=True)
+    seo_meta_description = Column(Text, nullable=True)
+    
     # Relationship to category
     category = relationship("Category", back_populates="products")
     

@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 export const WhatsAppButton = () => {
   const handleWhatsAppClick = () => {
-    const phoneNumber = '911234567890'; // Replace with actual WhatsApp number
+    const phoneNumber = '918922069800'; // Replace with actual WhatsApp number
     const message = 'Hi, I would like to inquire about medical equipment rental.';
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
