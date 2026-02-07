@@ -23,3 +23,4 @@ ENV/
 FULL_PROJECT_CODE.md
 backend/app/core/errors.py
 seed_data.py
+ngrok.exe
