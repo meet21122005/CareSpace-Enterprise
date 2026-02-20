@@ -5,9 +5,9 @@ import sys
 from pathlib import Path
 import os
 
-# Set database path to root directory (same as backend)
-import os
-os.environ['DATABASE_URL'] = 'sqlite:///./carespace.db'
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
 
 sys.path.insert(0, str(Path(__file__).parent / "backend"))
 

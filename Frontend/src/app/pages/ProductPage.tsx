@@ -20,21 +20,6 @@ export const ProductPage = () => {
   // Get category info
   const category = categories.find(c => c.id === product?.category_id);
 
-  // Parse specifications from string to object
-  const parseSpecifications = (specs: string | null): Record<string, string> => {
-    if (!specs) return {};
-    try {
-      return JSON.parse(specs);
-    } catch {
-      // If not JSON, try to parse as key-value pairs
-      const result: Record<string, string> = {};
-      specs.split('\n').forEach(line => {
-        const [key, value] = line.split(':').map(s => s.trim());
-        if (key && value) result[key] = value;
-      });
-      return result;
-    }
-  };
 
   // Parse features from description
   const parseFeatures = (description: string | null): string[] => {
@@ -73,14 +58,14 @@ export const ProductPage = () => {
   };
 
   const handleWhatsAppEnquiry = () => {
-    const phoneNumber = '911234567890';
+    const phoneNumber = '918922069800';
     const duration = selectedDuration === '1month' ? '1 month' : selectedDuration === '2month' ? '2 months' : '3 months';
     const message = `Hi, I'm interested in renting the ${product?.name} for ${duration}. Could you please provide more details?`;
     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   const handleCallEnquiry = () => {
-    window.location.href = 'tel:+911234567890';
+    window.location.href = 'tel:+918922069800';
   };
 
   const handleEmailEnquiry = () => {
@@ -131,7 +116,7 @@ export const ProductPage = () => {
 
   const productImage = getProductImageUrl(product.image_url, product.slug);
   const productImages = [productImage, productImage, productImage]; // In production, you'd have multiple images
-  const specifications = parseSpecifications(product.specifications);
+  // specifications removed — not rendering specifications card
   const features = parseFeatures(product.description);
   const youtubeId = getYouTubeId(product.youtube_url);
 
@@ -312,21 +297,9 @@ export const ProductPage = () => {
           </motion.div>
         </div>
 
-        {/* Features & Specifications */}
+        {/* Features section only (specifications removed) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
-          {Object.keys(specifications).length > 0 && (
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card rounded-2xl p-6">
-              <h2 className="text-xl font-bold text-[#1a2332] mb-4">Specifications</h2>
-              <div className="space-y-3">
-                {Object.entries(specifications).map(([key, value]) => (
-                  <div key={key} className="flex justify-between items-center py-2 border-b border-[#e0f2fe] last:border-0">
-                    <span className="text-[#64748b] font-medium">{key}</span>
-                    <span className="text-[#1a2332] font-semibold">{value}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
+          {/* Left column intentionally left for features or future content */}
         </div>
 
         {/* Related Products */}

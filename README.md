@@ -34,6 +34,63 @@
 - **Node.js 18+** with npm
 - **Git** for cloning
 
+
+### Moving Project to Another Computer (with Data)
+
+Follow these steps to zip your project, move it, and ensure all data is seeded properly in PostgreSQL on another computer:
+
+#### 1. Zip Your Project Folder
+- Right-click your `CareSpace-Enterprise` folder and select “Send to > Compressed (zipped) folder.”
+- Or, run this in PowerShell:
+   ```powershell
+   Compress-Archive -Path "d:\meet\CareSpace-Enterprise" -DestinationPath "d:\meet\CareSpace-Enterprise.zip"
+   ```
+
+#### 2. Copy and Extract
+- Copy the ZIP file to the new computer and extract it.
+
+#### 3. Set Up Backend (Python)
+- Install Python (same version as before).
+- Open a terminal in the backend folder.
+- Create a virtual environment:
+   ```bash
+   python -m venv ../venv
+   ```
+- Activate the virtual environment:
+   ```bash
+   ../venv/Scripts/activate
+   ```
+- Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+#### 4. Set Up Frontend (Node.js)
+- Install Node.js (same version as before).
+- Open a terminal in the Frontend folder.
+- Run:
+   ```bash
+   npm install
+   ```
+
+#### 5. Set Up PostgreSQL and Seed Data
+- Install PostgreSQL and create a database (same name as before).
+- Update your `.env` file with the correct database credentials if needed.
+- Run your seed or migration scripts to populate the database:
+   ```bash
+   python seed_data.py
+   # or
+   python backend/migrate_add_key_features.py
+   ```
+
+#### 6. Start Backend and Frontend Servers
+- Backend: Run the backend server (e.g., using uvicorn).
+- Frontend: Run the frontend dev server (e.g., npm run dev).
+
+This will ensure your code, dependencies, and database are all set up and seeded properly on the new computer.
+
+---
+
 ### One-Command Setup (Windows)
 ```bash
 # Clone repository
@@ -56,23 +113,70 @@ npm install
 npm run build
 
 # Start both servers
-# Terminal 1 - Backend
+# Terminal 1 - Backend (Port 8001)
 cd backend
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+../venv/Scripts/uvicorn.exe app.main:app --host 127.0.0.1 --port 8001
 
-# Terminal 2 - Frontend
+# Terminal 2 - Frontend (Port 5174)
 cd Frontend
 npm run dev
 ```
 
+### Environment Configuration
+
+#### Backend Environment
+The backend uses SQLite by default. For PostgreSQL in production:
+```bash
+# Set environment variable
+DATABASE_URL=postgresql://username:password@host:5432/carespace_db
+```
+
+#### Frontend Environment
+Create/update `Frontend/.env`:
+```bash
+# For local development
+VITE_API_URL=http://127.0.0.1:8001
+
+# For production
+# VITE_API_URL=https://your-deployed-backend-url.vercel.app
+```
+
+### Database Setup
+
+#### For Development (SQLite - Default)
+The app uses SQLite by default for easy development setup. No additional configuration needed.
+
+#### For Production (PostgreSQL - Enterprise)
+1. **Install PostgreSQL** locally or use a cloud service (Vercel Postgres, AWS RDS, etc.)
+2. **Create a database** named `carespace_db`
+3. **Set environment variable**:
+   ```bash
+   # Copy the example file
+   cp .env.example .env
+   
+   # Edit .env with your PostgreSQL connection string
+   DATABASE_URL=postgresql://username:password@localhost:5432/carespace_db
+   ```
+4. **Run migrations** (if needed):
+   ```bash
+   cd backend
+   python -c "from app.core.database import Base, engine; Base.metadata.create_all(bind=engine)"
+   ```
+
+#### Cloud Database Options
+- **Vercel Postgres**: Integrated with Vercel deployments
+- **AWS RDS**: Managed PostgreSQL service
+- **Google Cloud SQL**: Enterprise-grade PostgreSQL
+- **Supabase**: Open-source Firebase alternative
+
 ## 🌐 Live Demo
 
-- **🏠 Homepage**: http://localhost:5173
-- **🔧 Backend API**: http://127.0.0.1:8000
-- **📚 API Documentation**: http://127.0.0.1:8000/docs
-- **❤️ Health Check**: http://127.0.0.1:8000/health
-- **🗺️ Sitemap**: http://localhost:5173/sitemap.xml
-- **🤖 Robots.txt**: http://localhost:5173/robots.txt
+- **🏠 Homepage**: http://localhost:5174
+- **🔧 Backend API**: http://127.0.0.1:8001
+- **📚 API Documentation**: http://127.0.0.1:8001/docs
+- **❤️ Health Check**: http://127.0.0.1:8001/health
+- **🗺️ Sitemap**: http://localhost:5174/sitemap.xml
+- **🤖 Robots.txt**: http://localhost:5174/robots.txt
 
 ## ✨ Features
 
@@ -95,7 +199,7 @@ npm run dev
 
 ### 🔧 Backend Power
 - **🚀 RESTful API** - Clean FastAPI endpoints with automatic OpenAPI docs
-- **🗄️ Database Integration** - SQLAlchemy ORM with SQLite (production-ready)
+- **🗄️ Database Integration** - SQLAlchemy ORM with PostgreSQL/SQLite support (enterprise-ready)
 - **✅ Data Validation** - Pydantic schemas with comprehensive error handling
 - **🔒 Security** - CORS enabled, input sanitization, SQL injection protection
 - **📊 Analytics Ready** - Structured data for business intelligence
@@ -154,7 +258,8 @@ npm run dev
 
 ```
 Carespace-India/
-├── 🗄️ carespace.db                 # SQLite database (147KB)
+├── � .env.example                 # Environment variables template
+├── 🗄️ carespace.db                 # SQLite database (development)
 ├── 🐍 backend/                     # FastAPI Backend
 │   ├── app/
 │   │   ├── core/                   # Core functionality
@@ -261,7 +366,7 @@ GET    /redoc                   # Alternative API docs
 
 ### Backend (FastAPI + Python)
 - **🚀 Framework**: FastAPI with async support
-- **🗄️ Database**: SQLite + SQLAlchemy ORM
+- **🗄️ Database**: PostgreSQL/SQLite + SQLAlchemy ORM
 - **✅ Validation**: Pydantic v2 schemas
 - **📚 Documentation**: Auto-generated Swagger/ReDoc
 - **🔒 Security**: CORS, input validation, SQL injection protection
@@ -298,6 +403,27 @@ npm install
 npm run build
 # Deploy the 'dist' folder to your web server
 ```
+
+### Vercel Deployment
+The backend is configured for Vercel deployment with CORS headers:
+
+1. **Backend Deployment**:
+   ```bash
+   cd backend
+   vercel --prod
+   ```
+
+2. **Frontend Deployment**:
+   ```bash
+   cd Frontend
+   vercel --prod
+   ```
+
+3. **Update Frontend Environment**:
+   After backend deployment, update `Frontend/.env`:
+   ```bash
+   VITE_API_URL=https://your-vercel-backend-url.vercel.app
+   ```
 
 ### Docker Deployment (Optional)
 ```bash
@@ -358,14 +484,18 @@ npm install
 
 **Database connection issues:**
 ```bash
-# Reset database
+# For SQLite (development)
 python seed_data.py
+
+# For PostgreSQL (production)
+# Ensure DATABASE_URL is set in .env
+python -c "from app.core.database import engine; print('DB OK' if engine else 'DB Error')"
 ```
 
 **SEO sitemap not generating:**
 ```bash
-# Check database exists
-python -c "import sqlite3; conn = sqlite3.connect('carespace.db'); print('DB OK')"
+# Check database connection
+python -c "from app.core.database import engine; print('DB OK' if engine else 'DB Error')"
 
 # Run sitemap generator
 python generate_sitemap.py

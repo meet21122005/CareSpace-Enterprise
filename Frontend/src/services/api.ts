@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { Category, Product, ProductSearchResult } from '../types';
 
 // API Base URL - change this for production
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://care-space-enterprise-mwc1y3j96-meet21122005s-projects.vercel.app';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
