@@ -1,8 +1,14 @@
 import axios from 'axios';
 import type { Category, Product, ProductSearchResult } from '../types';
 
-// API Base URL - change this for production
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+// API Base URL - must be provided in production
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (typeof window !== 'undefined' ? window.location.origin : 'http://127.0.0.1:8000');
+
+if (!import.meta.env.VITE_API_URL && typeof window !== 'undefined' && window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
+  console.warn('VITE_API_URL is not set; falling back to same-origin API. Set VITE_API_URL for production.');
+}
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -59,8 +65,10 @@ export const leadsApi = {
   create: async (data: {
     name: string;
     phone: string;
+    source: string;
     email?: string;
-    product_id?: string;
+    product?: string;
+    page_url?: string;
     message?: string;
   }): Promise<void> => {
     await api.post('/api/leads', data);

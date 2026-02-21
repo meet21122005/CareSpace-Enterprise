@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Phone, Mail, User } from 'lucide-react';
 import { Button } from './Button';
+import { leadsApi } from '@/services/api';
 
 export const EnquiryPopup = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -30,12 +32,28 @@ export const EnquiryPopup = () => {
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Enquiry submitted:', formData);
-    setIsVisible(false);
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    if (isSubmitting) return;
+    try {
+      setIsSubmitting(true);
+      await leadsApi.create({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        message: formData.message,
+        source: 'popup',
+        page_url: window.location.href,
+      });
+      setIsVisible(false);
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      alert('Thanks! We received your enquiry and will reach out shortly.');
+    } catch (err) {
+      console.error('Failed to submit enquiry', err);
+      alert('Could not submit your enquiry. Please try again or call us at +91 8922069800.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -140,7 +158,7 @@ export const EnquiryPopup = () => {
                 </div>
 
                 <Button type="submit" variant="primary" size="lg" className="w-full">
-                  Submit Enquiry
+                  {isSubmitting ? 'Submitting...' : 'Submit Enquiry'}
                 </Button>
               </form>
             </div>

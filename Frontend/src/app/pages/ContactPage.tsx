@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
 import { Button } from '../components/Button';
+import { leadsApi } from '@/services/api';
 
 export const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -11,13 +12,29 @@ export const ContactPage = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission
-    alert('Thank you for contacting us! We will get back to you soon.');
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    if (isSubmitting) return;
+    try {
+      setIsSubmitting(true);
+      await leadsApi.create({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        message: `${formData.subject ? `${formData.subject} — ` : ''}${formData.message}`,
+        source: 'contact_form',
+        page_url: window.location.href,
+      });
+      alert('Thank you for contacting us! We will get back to you soon.');
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } catch (err) {
+      console.error('Contact submission failed', err);
+      alert('Could not send your message. Please try again or call +91 8922069800.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -198,7 +215,7 @@ export const ContactPage = () => {
 
               <Button type="submit" size="lg" variant="primary" className="w-full">
                 <Send className="w-5 h-5 mr-2" />
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </Button>
             </form>
           </motion.div>
