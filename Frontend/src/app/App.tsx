@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import { Toaster } from 'sonner';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { WhatsAppButton } from './components/WhatsAppButton';
@@ -69,6 +70,7 @@ export default function App() {
     <HelmetProvider>
       <Router>
         <AppContent />
+        <Toaster position="top-right" richColors closeButton duration={4000} />
       </Router>
     </HelmetProvider>
   );

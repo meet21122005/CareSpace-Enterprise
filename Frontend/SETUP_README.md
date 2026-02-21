@@ -149,6 +149,8 @@ Create a `.env` file in the root directory:
 VITE_API_URL=http://localhost:8000
 ```
 
+For production deployments, set `VITE_API_URL` to your public API host (for example `https://api.yourdomain.com`) so the frontend doesn’t fall back to the current origin.
+
 ## 🐛 Troubleshooting
 
 ### Installation Issues

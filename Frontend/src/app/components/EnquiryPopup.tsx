@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Phone, Mail, User } from 'lucide-react';
 import { Button } from './Button';
 import { leadsApi } from '@/services/api';
+import { toast } from 'sonner';
 
 export const EnquiryPopup = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -47,10 +48,10 @@ export const EnquiryPopup = () => {
       });
       setIsVisible(false);
       setFormData({ name: '', email: '', phone: '', message: '' });
-      alert('Thanks! We received your enquiry and will reach out shortly.');
+      toast.success('Thanks! We received your enquiry and will reach out shortly.');
     } catch (err) {
       console.error('Failed to submit enquiry', err);
-      alert('Could not submit your enquiry. Please try again or call us at +91 8922069800.');
+      toast.error('Could not submit your enquiry. Please try again or call us at +91 8922069800.');
     } finally {
       setIsSubmitting(false);
     }

@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
 import { Button } from '../components/Button';
 import { leadsApi } from '@/services/api';
+import { toast } from 'sonner';
 
 export const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -27,11 +28,11 @@ export const ContactPage = () => {
         source: 'contact_form',
         page_url: window.location.href,
       });
-      alert('Thank you for contacting us! We will get back to you soon.');
+      toast.success('Thank you for contacting us! We will get back to you soon.');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     } catch (err) {
       console.error('Contact submission failed', err);
-      alert('Could not send your message. Please try again or call +91 8922069800.');
+      toast.error('Could not send your message. Please try again or call +91 8922069800.');
     } finally {
       setIsSubmitting(false);
     }
