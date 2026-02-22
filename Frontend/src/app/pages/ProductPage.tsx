@@ -219,7 +219,7 @@ export const ProductPage = () => {
                 <span className="text-3xl sm:text-4xl font-bold text-[#0891b2]">{getPrice()}</span>
                 <span className="text-[#64748b]">{getDurationLabel()}</span>
               </div>
-              <p className="text-sm text-[#64748b]">Flexible rental plans available • Free delivery</p>
+              
             </div>
 
             {/* Duration Selector */}

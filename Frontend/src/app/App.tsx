@@ -15,6 +15,7 @@ import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { BlogPage } from './pages/BlogPage';
 import { FAQPage } from './pages/FAQPage';
+import { LoginPage } from './pages/LoginPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -41,7 +42,7 @@ function AppContent() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/faq" element={<FAQPage />} />
-          <Route path="/login" element={<ComingSoon title="Login" />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/privacy" element={<ComingSoon title="Privacy Policy" />} />
           <Route path="/terms" element={<ComingSoon title="Terms of Service" />} />
         </Routes>
