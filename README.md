@@ -180,14 +180,25 @@ The app uses SQLite by default for easy development setup. No additional configu
 
 ## ✨ Features
 
+
 ### 🏥 Core Healthcare Features
-- **📦 Equipment Inventory** - 41 medical equipment products across 10 categories
-- **💰 Dynamic Pricing** - Flexible 1-month, 2-month, and 3-month rental plans
-- **🏷️ Category Management** - Organized equipment categories (Hospital Beds, CPAP/BiPAP, Oxygen, etc.)
-- **🔍 Advanced Search** - Real-time product search with filtering
-- **📞 Lead Management** - Customer inquiry capture and management system
-- **📱 WhatsApp Integration** - Direct customer communication
-- **📧 Contact Forms** - Professional inquiry handling
+* **📦 Equipment Inventory** - 41 medical equipment products across 10 categories
+* **💰 Dynamic Pricing** - Flexible 1-month, 2-month, and 3-month rental plans
+* **🏷️ Category Management** - Organized equipment categories (Hospital Beds, CPAP/BiPAP, Oxygen, etc.)
+* **🔍 Advanced Search** - Real-time product search with filtering
+* **📞 Lead Management** - Customer inquiry capture and management system
+* **📱 WhatsApp Integration** - Direct customer communication
+* **📧 Contact Forms** - Professional inquiry handling
+
+### 🔑 Recent UI Changes
+* **Login Page Slideshow**: The login page now features a slideshow of local images for enhanced visual appeal.
+* **Branding Update**: The logo and branding have been removed from the login page for a cleaner look.
+* **Performance Improvements**: Login page animations and image loading have been optimized for faster interaction and reduced lag.
+* **Social Login Update**: Only the Google login button remains, now using the official Google logo.
+* **UI Isolation**: The login page is fully isolated from the UI directory and does not depend on shared UI components.
+* **Promotional Text Removal**: Product pages no longer display promotional text (e.g., "Flexible rental plans available • Free delivery").
+* **Image Cropping Fix**: Slideshow images are now properly cropped and displayed using object-fit for consistent appearance.
+* **Git Workflow**: All recent changes have been committed and pushed to the repository.
 
 ### 🎨 Frontend Excellence
 - **📱 Responsive Design** - Mobile-first approach (320px to 4K displays)
